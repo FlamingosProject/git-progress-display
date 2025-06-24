@@ -5,6 +5,9 @@ This is a somewhat grotty implementation of a technique
 developed by Philipp Oppermann to display various stages
 of a work-in-progress project as part of a Git repo.
 
+You can see a demo repo made using this technique on Github:
+[FlamingosProject/git-progress-display-demo](https://github.com/FlamingosProject/git-progress-display-demo).
+
 ## Intent
 
 The goal is to have a number of Git submodules of an
@@ -19,21 +22,20 @@ For example, here's what a `main` branch might look
 like. (The README here is the top-level project README.)
 
     README.md
-    01-first-thing-we-did/
-    02-second-thing-we-did/
-    03-third-thing-we-did/
+    01-starting-out/
+    02-elaborating/
+    03-improving/
 
 Each of these numbered directories corresponds to a git
 submodule pointing at a branch of the same name upstream:
-`03-third-thing-we-did` would be a Git submodule containing
+`03-improving` would be a Git submodule containing
 the work-in-progress code at that branch. For example,
 here's what that subdirectory might contain. (This README is
 for the work-in-progress code, and disjoint from the
 top-level README.)
 
     README.md
-    src/main.rs
-    src/module.rs
+    hello.py
 
 ## Scripting
 
