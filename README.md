@@ -11,12 +11,13 @@ You can see a demo repo made using this technique on Github:
 ## Intent
 
 The goal is to have a number of Git submodules of an
-upstream repo, each pointing to a successive numbered branch
-in that repo displaying work-in-progress. This allows the
-reader to jump directly into a directory corresponding to a
-particular checkpoint "chapter". The top-level directory in
-the `main` branch is decoupled from these branches, so it
-can be updated separately without disturbing the force.
+upstream repo, each pointing to a *viewpoint*: a successive
+numbered branch in that repo displaying work-in-progress. A
+viewpoint allows the reader to jump directly into a
+directory corresponding to a particular point in
+development. The top-level directory in the `main` branch is
+decoupled from these branches, so it can be updated
+separately without disturbing the force.
 
 For example, here's what a `main` branch might look
 like. (The README here is the top-level project README.)
@@ -26,9 +27,9 @@ like. (The README here is the top-level project README.)
     02-elaborating/
     03-improving/
 
-Each of these numbered directories corresponds to a git
-submodule pointing at a branch of the same name upstream:
-`03-improving` would be a Git submodule containing
+Each of these numbered viewpoint directories corresponds to
+a git submodule pointing at a branch of the same name
+upstream: `03-improving` would be a Git submodule containing
 the work-in-progress code at that branch. For example,
 here's what that subdirectory might contain. (This README is
 for the work-in-progress code, and disjoint from the
@@ -58,11 +59,50 @@ in how it generates display URLs that keeps the reader from
 clicking into the submodules on Github. Thus we currently
 don't use this approach.]
 
-### Workflow
+## Workflow
 
 We are currently using the following workflow, which
 takes advantage of the really nice `git worktree`
 functionality.
+
+### Initializing the repo
+
+You really want an empty commit at the root of your Git repo
+with both the top-level and project coming from that.
+
+* When starting a new repo, getting a root commit is relatively easy.
+
+  ```sh
+  git init
+  git commit --allow-empty -m 'my thing'
+  git branch -m main root
+  git branch main
+  git branch 01-starting`
+  git checkout main
+  ```
+
+* If you are working with an existing repo and want to
+  convert it to progress-display form, you'll want to graft
+  an empty commit onto the root so that you don't lose
+  history and yet don't have the new `main` track the old
+  state. You'll then have to make display branches for the
+  intermediate steps you want to show off.
+
+  Git hates this kind of thing. See
+  [`git-add-empty-root.sh`](./git-add-empty-root.sh) in this
+  repo for a sequence of commands that seems to work for this.
+  You will definitely want to work on a fresh `--no-local`
+  local clone of your repo, and only force-push upstream
+  when you are super-confident the good thing has happened.
+
+### Adding a viewpoint
+
+The whole point of progress-display is to have viewpoints
+representing the stages of project development.
+
+*[TODO]*
+
+### Updating the project
 
 * Check out a git worktree at the branch b to be modified
   using `git worktree add work` with b.
@@ -92,3 +132,7 @@ functionality.
 
 This is a pretty fragile and tedious workflow, but it does
 work and flow. Automation seemed highly desirable here.
+
+## Tool
+
+*[TODO]*
